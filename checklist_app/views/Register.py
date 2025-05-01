@@ -1,41 +1,39 @@
-from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
-from django.contrib.auth import login
-from django.middleware.csrf import get_token
-# from rest_framework.permissions import AllowAny
-# from django.urls import path
+from rest_framework_simplejwt.tokens import RefreshToken
 
+@api_view(['POST'])
+def register_user(request):
+    username = request.data.get("username")
+    email = request.data.get("email")
+    password = request.data.get("password")
+    confirm_pass = request.data.get("confirmPass")
 
-@api_view(['GET', 'POST', 'PUT'])
-def register(request):
-    print(request.data)
-    if request.method == 'POST':
-        username = request.data.get('username')
-        password = request.data.get('password')
-        confirm_password = request.data.get('confirmPass')
-        email = request.data.get('email')
-        fields = [username, password, confirm_password, email]
+    # Basic validation
+    if not username or not email or not password or not confirm_pass:
+        return Response({"message": "All fields are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not all(fields):
-            return Response({'error': 'Fill all fields.'}, status=400)
-        
-        if password != confirm_password:
-            return Response({'error': 'Passwords do not match.'}, status=400)
+    if password != confirm_pass:
+        return Response({"message": "Passwords do not match."}, status=status.HTTP_400_BAD_REQUEST)
 
-        if User.objects.filter(username=username).exists():
-            return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+    if User.objects.filter(username=username).exists():
+        return Response({"message": "Username already exists."}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = User.objects.create_user(username=request.data['username'],
-                                        password=request.data['password'],
-                                        email=request.data['email'])
-        # save to DB
-        user.save()
-        # sets a session id for the user, can handle safe requests such as get
-        login(request, user)
-        # creates csrf token that provides security for unsafe requests like post
-        csrf_token = get_token(request)
-        data = {'username': user.username, 'userId': user.id, 'csrfToken': csrf_token ,'message': 'login successful'}
-        return Response(data , status=status.HTTP_200_OK)
+    if User.objects.filter(email=email).exists():
+        return Response({"message": "Email already in use."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Create user
+    user = User.objects.create_user(username=username, email=email, password=password)
+    user.save()
+
+    # Generate JWT token
+    refresh = RefreshToken.for_user(user)
+    return Response({
+        "message": "User registered successfully.",
+        "username": user.username,
+        "userId": user.id,
+        "access": str(refresh.access_token),
+        "refresh": str(refresh),
+    }, status=status.HTTP_201_CREATED)

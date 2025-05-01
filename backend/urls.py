@@ -21,15 +21,16 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenBlacklistView
 )
-from checklist_app.views import Login, CSRF, Register, Home, Logout
+from checklist_app.views import Login, Register, Home, Logout, Checklist
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', Login.credentials),
-    path('register/', Register.register, name='register'),
+    path('register/', Register.register_user, name='register'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/logout/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('home/', Home.dashboard, name='home'),
     path('logout/', Logout.logout, name='logout'),
+    path('list/', Checklist.checklist, name='list'),
 ]

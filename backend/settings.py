@@ -168,24 +168,3 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
-
-# CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
-
-# CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN' 
-
-# # Session expires in 5 minutes (300 seconds)
-# SESSION_COOKIE_AGE = 600
-
-# # Session expires when the browser closes (optional but recommended)
-# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-# # If False, session expiry is based on the time of creation, not activity
-# SESSION_SAVE_EVERY_REQUEST = False
-
-# # local testing settings
-# CSRF_COOKIE_HTTPONLY = False
-# CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
-# SESSION_COOKIE_SAMESITE = 'None'
-# SESSION_COOKIE_SECURE = True  
-# CSRF_COOKIE_SECURE = True     
-# CSRF_COOKIE_SAMESITE = 'None'
