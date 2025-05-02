@@ -8,9 +8,6 @@ from rest_framework.authtoken.models import Token
 @api_view(['POST'])
 def credentials(request):
   if request.method == 'POST':
-    print('in login view...')
-    print(request.data)
-    print(request.headers)
 
     username = request.data['username']
     password = request.data['password']
@@ -22,9 +19,6 @@ def credentials(request):
     if user is not None:
       # sets a session id for the user, can handle safe requests such as get
       login(request, user)
-      print('user: ', user)
-      # creates csrf token that provides security for unsafe requests like post
-      # csrf_token = get_token(request)
       token = Token.objects.create(user=user)
       print(token.key)
       data = {'username': user.username, 'userId': user.id, 'message': 'login successful'}
