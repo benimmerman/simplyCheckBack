@@ -33,5 +33,5 @@ urlpatterns = [
     path('home/', Home.dashboard, name='home'),
     path('logout/', Logout.logout, name='logout'),
     path('newList/', NewList.createNewList, name='new_list'),
-    path('list/', Checklist.checklist, name='list'),
+    path('list/', Checklist.checklist, name='list_with_id'),
 ]

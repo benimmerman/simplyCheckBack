@@ -9,7 +9,6 @@ def createNewList(request):
     print(request.data)
     try:
       username = request.data['username']
-
       # retrieve useer from users table
       user = User.objects.get(username = username)
       # create a new row with default lilst name
