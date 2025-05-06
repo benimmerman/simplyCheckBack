@@ -18,8 +18,8 @@ def createNewList(request):
       new_list.save()
 
       # data dictionary to return
-      data = {'listID': new_list.listId, 'listTitle': new_list.listTitle}
-
+      data = {'listId': new_list.listId, 'listTitle': new_list.listTitle}
+      print(data)
       return Response(data, status=200)
     except Exception as e:
       print(e)

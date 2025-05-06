@@ -21,7 +21,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenBlacklistView
 )
-from checklist_app.views import Login, Register, Home, Logout, NewList, Checklist
+from checklist_app.views import Login, Register, Home, Logout, NewList, Checklist, DeleteList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +33,7 @@ urlpatterns = [
     path('home/', Home.dashboard, name='home'),
     path('logout/', Logout.logout, name='logout'),
     path('newList/', NewList.createNewList, name='new_list'),
-    path('list/', Checklist.checklist, name='list_with_id'),
+    path('list/', Checklist.checklist, name='list'),
+    path('list/<str:username>/<int:list_id>/', Checklist.checklist, name='list_get'),
+    path('deleteList/', DeleteList.deleteList, name='delete_list'),
 ]
