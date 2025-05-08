@@ -18,4 +18,13 @@ class Migration(migrations.Migration):
             name='notes',
             field=models.CharField(max_length=100, null=True),
         ),
+        migrations.RemoveField(
+            model_name='lists',
+            name='username',
+        ),
+        migrations.AddField(
+            model_name='lists',
+            name='user',
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+        ),
     ]
