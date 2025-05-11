@@ -2,5 +2,10 @@ backend/.env
 env/
 migrations/
 __pycache__/
-*py[cod]
+*/__pycache__/
+*/*/__pycache__/
+*.py[cod]
+*/*.py[cod]
+*/*/*.py[cod]
+backend/*py[cod]
 .env
