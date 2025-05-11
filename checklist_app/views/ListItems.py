@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from ..models.checklist import ListItems, Lists 
 from django.utils import timezone
 
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def checklist(request, username=None, list_id=None):
+@api_view(['GET'])
+def listItems(request, username=None, list_id=None):
     
     if request.method == 'GET':
         
@@ -25,7 +25,9 @@ def checklist(request, username=None, list_id=None):
         except Exception as e:
             print(e)
             return Response(e)
-        
+    
+@api_view(['POST', 'PUT', 'DELETE'])
+def manage_list_items(request):   
     if request.method == 'POST':
         print('request.data:',request.data)
         # handling cration of a new list item
