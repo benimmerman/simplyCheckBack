@@ -12,12 +12,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-import environ
 import os
 
 # Initialize environment variables
-env = environ.Env()
-environ.Env.read_env()
+
 
 PORT = os.environ.get('PORT', 8000)
 
@@ -25,10 +23,10 @@ PORT = os.environ.get('PORT', 8000)
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.environ['DEBUG']
 
 ALLOWED_HOSTS = ['tracklyback.onrender.com', 'localhost', '127.0.0.1']
 
@@ -47,7 +45,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'checklist_app',
     'corsheaders',
-    'psycopg',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
 ]
 
 MIDDLEWARE = [
@@ -89,11 +88,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASS'),
-        'HOST': env('DATABASE_HOST', default='localhost'),
-        'PORT': env('DATABASE_PORT'),
+        'NAME': os.environ['DATABASE_NAME'],
+        'USER': os.environ['DATABASE_USER'],
+        'PASSWORD': os.environ['DATABASE_PASS'],
+        'HOST': os.environ['DATABASE_HOST'],
+        'PORT': os.environ['DATABASE_PORT'],
     }
 }
 
@@ -131,8 +130,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = 'static/'
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -143,8 +143,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS')
-
+CORS_ALLOWED_ORIGINS = [os.environ['CORS_ALLOWED_ORIGINS']]
 CORS_ALLOW_HEADERS = (
     'accept',
     'accept-encoding',
@@ -160,7 +159,26 @@ CORS_ALLOW_HEADERS = (
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ]
+    ],
+     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
+# Spectacular settings
+SPECTACULAR_SETTINGS = {
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
+        'displayOperationId': True,
+        'defaultModelsExpandDepth': -1,
+ 
+    },
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
 }
 
 SIMPLE_JWT = {

@@ -1,1 +1,6 @@
 backend/.env
+env/
+migrations/
+__pycache__/
+*py[cod]
+.env
