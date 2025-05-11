@@ -19,10 +19,9 @@ urlpatterns = [
     path('home/', Home.dashboard, name='home'),
     path('logout/', Logout.logout, name='logout'),
     path('newList/', NewList.createNewList, name='new_list'),
-    path('list/', Checklist.checklist, name='list'),
     path('list/<str:username>/<int:list_id>/', Checklist.checklist, name='list_get'),
     path('deleteList/', DeleteList.deleteList, name='delete_list'),
-     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
