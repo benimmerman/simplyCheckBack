@@ -12,7 +12,8 @@ def register_user(request):
     confirm_pass = request.data.get("confirmPass")
 
     # Basic validation
-    if not username or not email or not password or not confirm_pass:
+    # or not email removed because it is not required
+    if not username or not password or not confirm_pass:
         return Response({"message": "All fields are required."}, status=status.HTTP_400_BAD_REQUEST)
 
     if password != confirm_pass:
@@ -20,9 +21,9 @@ def register_user(request):
 
     if User.objects.filter(username=username).exists():
         return Response({"message": "Username already exists."}, status=status.HTTP_400_BAD_REQUEST)
-
-    if User.objects.filter(email=email).exists():
-        return Response({"message": "Email already in use."}, status=status.HTTP_400_BAD_REQUEST)
+    # or not email removed because it is not required   
+    # if User.objects.filter(email=email).exists():
+    #     return Response({"message": "Email already in use."}, status=status.HTTP_400_BAD_REQUEST)
 
     # Create user
     user = User.objects.create_user(username=username, email=email, password=password)

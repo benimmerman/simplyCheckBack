@@ -5,7 +5,7 @@ from django.utils import timezone
 class Lists(models.Model):
     listId = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    listTitle = models.CharField(max_length=100, default='Checklist')
+    listTitle = models.CharField(max_length=100, default="")
     createdWhen = models.DateTimeField(default=timezone.now)
     lastModified = models.DateTimeField(null=True)
     lastModifiedBy = models.IntegerField(null=True)

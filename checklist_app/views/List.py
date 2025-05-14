@@ -9,11 +9,13 @@ def list(request):
     print(request.data)
     try:
       username = request.data['username']
+      listTitle = request.data['listTitle']
       # retrieve useer from users table
       user = User.objects.get(username = username)
       # create a new row with default lilst name
       new_list = Lists(
         user_id = user.id,
+        listTitle = listTitle
       )
       new_list.save()
 
