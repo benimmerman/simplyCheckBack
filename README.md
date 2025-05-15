@@ -85,7 +85,7 @@ Contributions are welcome! If you'd like to suggest features, report bugs, or su
 
 ---
 
-## 📂 Backend Repository
+## 📂 Frontend Repository
 
 [Trackly Frontend](https://github.com/benimmerman/trackly)
 
