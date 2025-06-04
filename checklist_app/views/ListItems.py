@@ -15,12 +15,10 @@ def listItems(request, username=None, list_id=None):
         try:
             # Retrieve the user from the users table
             user = User.objects.get(username=username)
-            print('userid', user.id)
             # Retrieve the list based on listId and check if it belongs to the user
             list_obj = Lists.objects.get(listId=list_id, user_id=user.id)
             items = ListItems.objects.filter(listId=list_obj.listId)
             item_data = list(items.values('id', 'itemName', 'isDone', 'notes', 'createdWhen'))
-            print(item_data)
             return Response({'listItems': item_data, 'listTitle': list_obj.listTitle},status=200)
         except Exception as e:
             print(e)
@@ -29,7 +27,6 @@ def listItems(request, username=None, list_id=None):
 @api_view(['POST', 'PUT', 'DELETE'])
 def manage_list_items(request):   
     if request.method == 'POST':
-        print('request.data:',request.data)
         # handling cration of a new list item
         if request.data['itemName']:
             try:
@@ -64,7 +61,6 @@ def manage_list_items(request):
     if request.method == 'PUT':
         try:
             update_type = request.data.get('updateType')
-            print(update_type)
             username = request.data.get('username')
             user = User.objects.get(username=username)
             
@@ -93,7 +89,6 @@ def manage_list_items(request):
             elif update_type == 'toggleCheck':
                 item_id = request.data.get('id')
                 is_done = request.data.get('isDone')
-                print(is_done)
                 if item_id:
                     item = ListItems.objects.get(id=item_id)
                     item.isDone = is_done
