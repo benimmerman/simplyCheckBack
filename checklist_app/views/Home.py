@@ -11,8 +11,8 @@ def dashboard(request):
       
       username = request.user
       lists = Lists.objects.filter(user=username).values('listId', 'listTitle')
-      print(lists)
+
       return Response({'lists': list(lists)}, status=200)
     except Exception as e:
-      print(e)
+
       return Response({'error': str(e)}, status=500)
