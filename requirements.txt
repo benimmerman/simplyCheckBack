@@ -10,5 +10,5 @@ drf-spectacular==0.28.0
 drf-spectacular-sidecar==2025.5.1
 python-dotenv==1.0.1
 psycopg==3.2.6
-
+cryptography==43.0.1
 
