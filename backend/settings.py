@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'checklist_app.middleware.TokenRefreshMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -158,7 +159,7 @@ CORS_ALLOW_HEADERS = (
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'checklist_app.authentication.EncryptedJWTAuthentication',
     ],
      'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
