@@ -6,7 +6,6 @@ from ..models.checklist import Lists
 @api_view(['POST', 'DELETE'])
 def list(request):
   if request.method == 'POST':
-    print(request.data)
     try:
       username = request.data['username']
       listTitle = request.data['listTitle']
@@ -21,21 +20,16 @@ def list(request):
 
       # data dictionary to return
       data = {'listId': new_list.listId, 'listTitle': new_list.listTitle}
-      print(data)
       return Response(data, status=200)
     except Exception as e:
-      print(e)
       return Response({'error': str(e)}, status=500)
     
   if request.method == 'DELETE':
     try:
         # Expecting the request to have the listId and username
-        print(['request', request.GET.get('listId')])
         username = request.user
         list_id = request.GET.get('listId')
-        print(username)
-        print(f'list_id: {list_id}')
-
+     
         if not username or not list_id:
             return Response({'error': 'Username and listId are required'}, status=400)
 
